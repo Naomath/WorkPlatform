@@ -8,7 +8,8 @@ import com.dennnoukishidann.workplatform.enums.LoginStatus;
 import com.dennnoukishidann.workplatform.processing.FragmentProcessing;
 import com.dennnoukishidann.workplatform.processing.SavingDataProcessing;
 
-public class LoginActivity extends AppCompatActivity implements SignInFragment.OnFragmentInteractionListener {
+public class LoginActivity extends AppCompatActivity
+        implements SignInFragment.OnFragmentInteractionListener, SignUpFragment.OnFragmentInteractionListener {
 
     LoginStatus mStatus;
 
@@ -32,14 +33,21 @@ public class LoginActivity extends AppCompatActivity implements SignInFragment.O
 
     }
 
-    //SignInFragmentのinterface
+    //SignInFragmentのinterfaceのメソッド
 
     @Override
     public void goSinUp() {
         setUpFragment(SIGN_UP);
     }
 
+    //SignUpFragmentのinterfaceのメソッド
+
     //ログイン状況を確認するメソッド
+
+    @Override
+    public void cancelSignUp() {
+        setUpFragment(SIGN_IN);
+    }
 
     public void checkLoginStatus() {
         mStatus = SavingDataProcessing.getLoginStatus(this);
@@ -55,6 +63,5 @@ public class LoginActivity extends AppCompatActivity implements SignInFragment.O
             FragmentProcessing.setUpSignUp(null, this, viewPath);
         }
     }
-
 
 }
