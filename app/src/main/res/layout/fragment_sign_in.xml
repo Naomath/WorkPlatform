@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:text="ログインしてください"
             android:textSize="18dp" />
     </RelativeLayout>
@@ -72,20 +71,10 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:background="@color/colorTheme"
+            android:background="@drawable/selector_btn"
             android:text="ログイン"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_large" />
-
-        <RelativeLayout
-            android:id="@+id/sign_in_shell"
-            android:layout_width="250dp"
-            android:layout_height="45dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@color/colorError" />
-
 
     </RelativeLayout>
 
@@ -104,6 +93,7 @@
             android:layout_marginBottom="@dimen/margin_common"
             android:layout_marginRight="@dimen/margin_common"
             android:background="@color/colorCleanness"
+            android:enabled="true"
             android:text="新規アカウント登録"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>

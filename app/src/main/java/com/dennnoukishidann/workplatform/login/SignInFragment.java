@@ -14,18 +14,22 @@ import android.widget.EditText;
 
 import com.dennnoukishidann.workplatform.R;
 
-public class SignInFragment extends Fragment implements View.OnClickListener, TextWatcher {
+public class SignInFragment extends Fragment implements View.OnClickListener {
 
 
     private OnFragmentInteractionListener mListener;
 
     View mView;
 
-    EditText mEdMail;
+    EditText mEdMailAddress;
     EditText mEdPassword;
 
-    Button mBtSignIn;
-    Button mBtSignUp;
+    Button mBtnSignIn;
+    Button mBtnSignUp;
+
+    boolean mBlEdUserName;
+    boolean mBlEdPassword;
+
 
     public SignInFragment() {
         // Required empty public constructor
@@ -50,6 +54,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Te
                              Bundle savedInstanceState) {
         setUpAllViews(inflater, container);
         setUpSignUpButton();
+        setUpListeners();
         return mView;
     }
 
@@ -74,56 +79,110 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Te
         if (view != null) {
             switch (view.getId()) {
                 case R.id.sign_in:
+                    signIn();
                     break;
                 case R.id.sign_up:
+                    signUp();
                     break;
             }
         }
     }
 
-    //TextWatcherのメソッド
+    //TextWatcherのクラス
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public class GenericTextWatcher implements TextWatcher {
+        //複数edittextの監視のクラス
+        View view;
 
+        public GenericTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            switch (view.getId()) {
+                case R.id.user_name:
+                    if (charSequence.length() != 0) {
+                        mBlEdUserName = true;
+                    } else {
+                        mBlEdUserName = false;
+                    }
+                    break;
+                case R.id.password:
+                    if (charSequence.length() != 0) {
+                        mBlEdPassword = true;
+                    } else {
+                        mBlEdPassword = false;
+                    }
+                    break;
+            }
+
+            if (mBlEdUserName && mBlEdPassword) {
+                //両方とも入力されている
+                mBtnSignIn.setEnabled(true);
+            } else {
+                //両方のどちらかが最低でも入力されていない
+                mBtnSignIn.setEnabled(false);
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 
     //ViewたちのSetUp処理
 
     public void setUpAllViews(LayoutInflater inflater, ViewGroup container) {
         mView = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
-        mEdMail = (EditText) mView.findViewById(R.id.mail_address);
+        mEdMailAddress = (EditText) mView.findViewById(R.id.mail_address);
         mEdPassword = (EditText) mView.findViewById(R.id.password);
-        mEdMail.addTextChangedListener(this);
-        mEdPassword.addTextChangedListener(this);
 
-        mBtSignIn = (Button) mView.findViewById(R.id.sign_in);
-        mBtSignUp = (Button) mView.findViewById(R.id.sign_up);
+        mBtnSignIn = (Button) mView.findViewById(R.id.sign_in);
+        mBtnSignUp = (Button) mView.findViewById(R.id.sign_up);
     }
 
     public void setUpSignUpButton() {
-        //SignInのボタンの背景とかをちゃんと設定する
+        //SignInのボタンのenableとかをsetUp
+        mBtnSignIn.setEnabled(false);
+        //ここでfalseにするとselectorが働く
+    }
 
+    //リスナーをセッティングする
+
+    public void setUpListeners() {
+        mListener = (OnFragmentInteractionListener) getActivity();
+
+        mEdMailAddress.addTextChangedListener(new GenericTextWatcher(mEdMailAddress));
+        mEdPassword.addTextChangedListener(new GenericTextWatcher(mEdPassword));
+
+        mBtnSignIn.setOnClickListener(this);
+        mBtnSignUp.setOnClickListener(this);
     }
 
     //ボタンのクリック処理
 
     public void signIn() {
-        String mailAddress = mEdMail.getText().toString();
+        String mailAddress = mEdMailAddress.getText().toString();
         String password = mEdPassword.getText().toString();
+        //TODO:Write next processing
     }
 
+    public void signUp() {
+        mListener.goSinUp();
+    }
+
+    //このfragmentのinterface
+
     public interface OnFragmentInteractionListener {
+        void goSinUp();
     }
 }

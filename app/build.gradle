@@ -28,5 +28,12 @@ android {
 
         //tutorial view library
         compile 'com.github.msayan:tutorial-view:v1.0.6'
+
+        //percent library
+        compile 'com.android.support:percent:27.1.1'
+
+        //design library
+        compile 'com.android.support:design:27.1.1'
+
     }
 }
