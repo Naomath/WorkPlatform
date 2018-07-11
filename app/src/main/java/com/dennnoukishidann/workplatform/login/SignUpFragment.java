@@ -3,6 +3,7 @@ package com.dennnoukishidann.workplatform.login;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Layout;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.dennnoukishidann.workplatform.R;
+
+import org.w3c.dom.Text;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
 
@@ -37,8 +40,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     boolean mBlEdPassword;
     boolean mBlEdRePassword;
 
+    TextInputLayout mTiyPassword;
+    TextInputLayout mTiyRePassword;
+
+
     public SignUpFragment() {
-        // Required empty public constructor
     }
 
     public static SignUpFragment newInstance(String param1, String param2) {
@@ -80,7 +86,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.done:
-                    //TODO:write next processing
+                    done();
                     break;
                 case R.id.cancel:
                     cancel();
@@ -127,6 +133,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 case R.id.password:
                     if (charSequence.length() != 0) {
                         mBlEdPassword = true;
+
+                        mTiyPassword.setErrorEnabled(false);
+                        mTiyPassword.setError(null);
                     } else {
                         mBlEdPassword = false;
                     }
@@ -137,6 +146,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         mBlEdRePassword = true;
                     } else {
                         mBlEdRePassword = false;
+
+                        mTiyRePassword.setErrorEnabled(false);
+                        mTiyRePassword.setError(null);
                     }
                     break;
             }
@@ -158,6 +170,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
 
     //ViewたちのSetUp
+
     public void setUpViews(LayoutInflater inflater, ViewGroup container) {
         mView = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
@@ -168,6 +181,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         mEdMailAddress = (EditText) mView.findViewById(R.id.mail_address);
         mEdPassword = (EditText) mView.findViewById(R.id.password);
         mEdRePassword = (EditText) mView.findViewById(R.id.re_password);
+
+        mTiyPassword = (TextInputLayout) mView.findViewById(R.id.textInputLayout2);
+        mTiyRePassword = (TextInputLayout) mView.findViewById(R.id.textInputLayout3);
     }
 
     public void setUpDoneButton() {
@@ -177,6 +193,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
     //リスナーの設定
+
     public void setUpListeners() {
         mListener = (OnFragmentInteractionListener) getActivity();
 
@@ -192,7 +209,40 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     //クリックした時の処理
 
     public void cancel() {
+        //キャンセルボタンを押した時の処理
         mListener.cancelSignUp();
+    }
+
+    public void done() {
+        //DONEボタンを押した時の処理
+
+        //まずはパスワードの最初に入れたやつと確認ようが一致しているか確かめる
+        String password = mEdPassword.getText().toString();
+        String rePasssword = mEdRePassword.getText().toString();
+
+        if (password.equals(rePasssword)) {
+            //一致した時
+            //TODO:Write next processing on user registration (ユーザー登録の処理)
+        } else {
+            //不一致だった時
+            //エラーメッセージを出す
+            showErrorMessageOnPassword();
+        }
+    }
+
+    //EditTextに関する処理
+
+    public void showErrorMessageOnPassword() {
+        //最初のパスワードと次のパスワードが一致しなかった時に出す処理
+        mTiyPassword.setErrorEnabled(true);
+        mTiyRePassword.setErrorEnabled(true);
+
+        String message = getResources().getString(R.string.mismatchTwoPasswords);
+        mTiyPassword.setError(message);
+        mTiyRePassword.setError(message);
+
+        //ここでボタンの無効化をする
+        mBtnDone.setEnabled(false);
     }
 
     //このFragmentのリスナー

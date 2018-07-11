@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">WorkPlatform</string>
+    
+    <!-- SharedPreferenceのKeyたち -->
     <string name="SpLoginStatusKey">LoginStatus</string>
+    
+    <!-- SharedPreferenceの中身のKeyたち　-->
     <string name="SpLoginStatusValueKey">LoginStatus</string>
+    
+    <!-- メッセージに使う文言とか -->]
+    <string name="mismatchTwoPasswords">二つの入力されたパスワードが一致しません</string>
+
 </resources>
