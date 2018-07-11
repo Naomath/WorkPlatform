@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorkPlatform</string>
+    <string name="SpLoginStatusKey">LoginStatus</string>
+    <string name="SpLoginStatusValueKey">LoginStatus</string>
 </resources>

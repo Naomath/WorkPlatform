@@ -37,6 +37,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:hint="メールアドレス"
+            android:inputType="text"
             android:textColorHint="@color/colorAccent"
             android:textSize="@dimen/text_size_mid" />
     </RelativeLayout>
@@ -54,6 +55,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:hint="パスワード"
+            android:inputType="text"
             android:textColorHint="@color/colorAccent"
             android:textSize="@dimen/text_size_mid" />
     </RelativeLayout>
@@ -77,12 +79,12 @@
 
         <RelativeLayout
             android:id="@+id/sign_in_shell"
-            android:background="@color/colorError"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@color/colorError" />
 
 
     </RelativeLayout>
