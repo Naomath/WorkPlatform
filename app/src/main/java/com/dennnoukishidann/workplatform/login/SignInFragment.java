@@ -22,12 +22,13 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     View mView;
 
     EditText mEdMailAddress;
+
     EditText mEdPassword;
 
     Button mBtnSignIn;
     Button mBtnSignUp;
 
-    boolean mBlEdmailAddress;
+    boolean mBlEdMailAddress;
     boolean mBlEdPassword;
 
 
@@ -108,9 +109,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             switch (view.getId()) {
                 case R.id.mail_address:
                     if (charSequence.length() != 0) {
-                        mBlEdmailAddress = true;
+                        mBlEdMailAddress = true;
                     } else {
-                        mBlEdmailAddress = false;
+                        mBlEdMailAddress = false;
                     }
                     break;
                 case R.id.password:
@@ -122,7 +123,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                     break;
             }
 
-            if (mBlEdmailAddress && mBlEdPassword) {
+            if (mBlEdMailAddress && mBlEdPassword) {
                 //両方とも入力されている
                 mBtnSignIn.setEnabled(true);
             } else {
@@ -173,7 +174,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     public void signIn() {
         String mailAddress = mEdMailAddress.getText().toString();
         String password = mEdPassword.getText().toString();
-        //TODO:Write next processing
+        //TODO:Write next processing on Sign in and Main
     }
 
     public void signUp() {

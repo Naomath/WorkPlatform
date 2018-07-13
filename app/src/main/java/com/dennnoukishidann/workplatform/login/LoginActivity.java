@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity
         checkLoginStatus();
         if (mStatus == LoginStatus.IN) {
             //ログインしている時の処理
-            //TODO:Write Next Processing
+            //TODO:Write Next Processing on Main
         } else {
             //ログインしてない時の処理
             setUpFragment(SIGN_IN);
