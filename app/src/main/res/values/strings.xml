@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">WorkPlatform</string>
     
-    <!-- SharedPreferenceのKeyたち -->
-    <string name="SpLoginStatusKey">LoginStatus</string>
-    
-    <!-- SharedPreferenceの中身のKeyたち　-->
-    <string name="SpLoginStatusValueKey">LoginStatus</string>
-    
     <!-- メッセージに使う文言とか -->]
     <string name="mismatchTwoPasswords">二つの入力されたパスワードが一致しません</string>
+
+    <!-- BundleのKeyたち -->
+    <string name="BundleUserNameKey">user_name</string>
+    <string name="BundleUserEmailKey">mail_address</string>
+    <string name="BundlePasswordKey">password</string>
+    <string name="BundleUserIdKey">user_id</string>
 
 </resources>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dennnoukishidann.workplatform.R;
+import com.dennnoukishidann.workplatform.firebase.ReadingInFireBase;
 
 public class SignInFragment extends Fragment implements View.OnClickListener {
 
@@ -174,7 +175,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     public void signIn() {
         String mailAddress = mEdMailAddress.getText().toString();
         String password = mEdPassword.getText().toString();
-        //TODO:Write next processing on Sign in and Main
+
+        ReadingInFireBase.searchUserByMailAddress(mailAddress);
+        //TODO:write
     }
 
     public void signUp() {
@@ -185,5 +188,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     public interface OnFragmentInteractionListener {
         void goSinUp();
+
+        void loginFromSignIn(String userId);
     }
 }

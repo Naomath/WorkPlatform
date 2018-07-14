@@ -41,6 +41,15 @@ android {
         implementation 'com.google.firebase:firebase-database:16.0.1'
 
 
+        //RandomStringGenerator
+        compile 'org.apache.commons:commons-text:1.4'
+
+        //lombok
+        compileOnly 'org.projectlombok:lombok:1.18.0'
+        annotationProcessor 'org.projectlombok:lombok:1.18.0'
+
+
+
     }
 }
 

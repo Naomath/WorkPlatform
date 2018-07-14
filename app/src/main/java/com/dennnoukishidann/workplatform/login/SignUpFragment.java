@@ -1,5 +1,6 @@
 package com.dennnoukishidann.workplatform.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.dennnoukishidann.workplatform.R;
+import com.dennnoukishidann.workplatform.firebase.WritingInFireBase;
+import com.dennnoukishidann.workplatform.instanceClass.User;
 
 import org.w3c.dom.Text;
 
-public class SignUpFragment extends Fragment implements View.OnClickListener {
+public class SignUpFragment extends Fragment implements View.OnClickListener
+        , WritingInFireBase.OnCompleteListener {
 
 
     private OnFragmentInteractionListener mListener;
@@ -43,6 +47,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     TextInputLayout mTiyPassword;
     TextInputLayout mTiyRePassword;
 
+    ProgressDialog mProgressDialog;
+    //signUpの時の処理中に使う
 
     public SignUpFragment() {
     }
@@ -94,6 +100,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
             }
         }
+    }
+
+    //OnCompleteListenerのメソッド
+
+    @Override
+    public void completeFirebaseProcessing(Bundle bundle) {
+        String userId = bundle.getString(String.valueOf(R.string.BundleUserIdKey));
+
+        mListener.loginFromSignUp(userId);
     }
 
     //TextWatcherのクラス
@@ -192,6 +207,16 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         //ここでfalseにするとselectorが働く
     }
 
+    public void setUpProgressDialog() {
+        //progressdialogの処理
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage("ログインしています。");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+        //activityが変わるときに勝手に消える
+    }
+
     //リスナーの設定
 
     public void setUpListeners() {
@@ -218,16 +243,37 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         //まずはパスワードの最初に入れたやつと確認ようが一致しているか確かめる
         String password = mEdPassword.getText().toString();
-        String rePasssword = mEdRePassword.getText().toString();
+        String rePassword = mEdRePassword.getText().toString();
 
-        if (password.equals(rePasssword)) {
+        if (password.equals(rePassword)) {
             //一致した時
-            //TODO:Write next processing on user registration (ユーザー登録の処理)
+            sinUpUser();
         } else {
             //不一致だった時
             //エラーメッセージを出す
             showErrorMessageOnPassword();
         }
+    }
+
+    //ユーザーを登録する処理
+
+    public void sinUpUser() {
+        //ユーザーを登録する処理
+        //先にボタンを押せないようにする
+        mBtnDone.setEnabled(false);
+
+        //次にprogressdialogを起動させる
+        setUpProgressDialog();
+
+        String name = mEdUserName.getText().toString();
+        String mailAddress = mEdMailAddress.getText().toString();
+        String password = mEdPassword.getText().toString();
+
+        User user = new User(name, mailAddress, password);
+
+        WritingInFireBase.OnCompleteListener listener = (WritingInFireBase.OnCompleteListener) this;
+
+        WritingInFireBase.addUser(user, listener);
     }
 
     //EditTextに関する処理
@@ -249,5 +295,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     public interface OnFragmentInteractionListener {
         void cancelSignUp();
+
+        void loginFromSignUp(String userId);
     }
 }

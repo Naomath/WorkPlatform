@@ -54,7 +54,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:hint="パスワード"
-            android:inputType="text"
+            android:inputType="text|textPassword"
             android:textColorHint="@color/colorAccent"
             android:textSize="@dimen/text_size_mid" />
     </RelativeLayout>
