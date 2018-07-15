@@ -23,6 +23,7 @@ public class WritingInFireBase {
 
     public static void addUser(User user, final OnCompleteListener completeListener) {
         //ユーザーを追加する
+        //メールアドレスが重複してないことを確認してから呼び出される
 
         //Randomに生成するuserID
         RandomStringGenerator generator = new RandomStringGenerator.Builder()
@@ -41,12 +42,9 @@ public class WritingInFireBase {
                 Bundle bundle = new Bundle();
                 bundle.putString(String.valueOf(R.string.BundleUserIdKey), userId);
                 completeListener.completeFirebaseProcessing(bundle);
+                return;
             }
         });
-
-        //TODO:mailAddressの重複を確認
-
-
     }
 
 

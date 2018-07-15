@@ -2,7 +2,13 @@
     <string name="app_name">WorkPlatform</string>
     
     <!-- メッセージに使う文言とか -->]
-    <string name="mismatchTwoPasswords">二つの入力されたパスワードが一致しません</string>
+    <string name="mismatchTwoPasswords">二つの入力されたパスワードが一致しません</string><!--入力した二つのパスワードが一致しないとき(最初のと確認用のパスワード) -->
+    <string name="mismatchPassword">入力されたパスワードは正しくありません</string><!-- サインインの時に入力したパスワードが正しくなかった時 -->
+
+    <string name="existsMailAddressAlready">このメールアドレスはすでに登録されています</string><!--　登録に使うおうとしたメールアドレスがすでに使われていた時-->
+    <string name="nonExistsMailAddress">このメールアドレスは登録されていません</string><!-- サインインに使おうとしたメールアドレスがなかった時 -->
+
+    <string name="nowLoggingIn">ログインしています</string><!--　ログイン処理の最中の時のプログレスダイアログでつまうメッセージ -->
 
     <!-- BundleのKeyたち -->
     <string name="BundleUserNameKey">user_name</string>

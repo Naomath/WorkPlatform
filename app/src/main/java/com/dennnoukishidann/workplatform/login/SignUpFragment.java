@@ -2,12 +2,10 @@ package com.dennnoukishidann.workplatform.login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.dennnoukishidann.workplatform.R;
+import com.dennnoukishidann.workplatform.enums.UserExists;
+import com.dennnoukishidann.workplatform.firebase.ReadingInFireBase;
 import com.dennnoukishidann.workplatform.firebase.WritingInFireBase;
 import com.dennnoukishidann.workplatform.instanceClass.User;
 
-import org.w3c.dom.Text;
-
 public class SignUpFragment extends Fragment implements View.OnClickListener
-        , WritingInFireBase.OnCompleteListener {
+        , WritingInFireBase.OnCompleteListener, ReadingInFireBase.OnReturnUserExistsListener {
 
 
     private OnFragmentInteractionListener mListener;
@@ -44,6 +42,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
     boolean mBlEdPassword;
     boolean mBlEdRePassword;
 
+    TextInputLayout mTiyMailAddress;
     TextInputLayout mTiyPassword;
     TextInputLayout mTiyRePassword;
 
@@ -102,13 +101,29 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    //OnCompleteListenerのメソッド
+    //WritingInFireBase.OnCompleteListenerのメソッド
 
     @Override
     public void completeFirebaseProcessing(Bundle bundle) {
         String userId = bundle.getString(String.valueOf(R.string.BundleUserIdKey));
 
         mListener.loginFromSignUp(userId);
+    }
+
+    //ReadingInFireBase.OnReturnUserExistsListenerのメソッド
+
+    @Override
+    public void returnUserExists(UserExists result) {
+        switch (result) {
+            case EXIST:
+                //すでに存在していた場合
+                showErrorMessageOnMailAddress();
+                break;
+            case NON_EXISTS:
+                //存在していなかった場合
+                signUpUserSecond();
+                break;
+        }
     }
 
     //TextWatcherのクラス
@@ -138,6 +153,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
                     break;
 
                 case R.id.mail_address:
+                    mTiyMailAddress.setErrorEnabled(false);
+                    mTiyMailAddress.setError(null);
+
                     if (charSequence.length() != 0) {
                         mBlEdMailAddress = true;
                     } else {
@@ -151,6 +169,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
 
                         mTiyPassword.setErrorEnabled(false);
                         mTiyPassword.setError(null);
+                        mTiyRePassword.setErrorEnabled(false);
+                        mTiyRePassword.setError(null);
                     } else {
                         mBlEdPassword = false;
                     }
@@ -159,11 +179,13 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
                 case R.id.re_password:
                     if (charSequence.length() != 0) {
                         mBlEdRePassword = true;
-                    } else {
-                        mBlEdRePassword = false;
 
+                        mTiyPassword.setErrorEnabled(false);
+                        mTiyPassword.setError(null);
                         mTiyRePassword.setErrorEnabled(false);
                         mTiyRePassword.setError(null);
+                    } else {
+                        mBlEdRePassword = false;
                     }
                     break;
             }
@@ -197,6 +219,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
         mEdPassword = (EditText) mView.findViewById(R.id.password);
         mEdRePassword = (EditText) mView.findViewById(R.id.re_password);
 
+        mTiyMailAddress = (TextInputLayout) mView.findViewById(R.id.textInputLayout1);
         mTiyPassword = (TextInputLayout) mView.findViewById(R.id.textInputLayout2);
         mTiyRePassword = (TextInputLayout) mView.findViewById(R.id.textInputLayout3);
     }
@@ -210,11 +233,49 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
     public void setUpProgressDialog() {
         //progressdialogの処理
         mProgressDialog = new ProgressDialog(getActivity());
+
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setMessage("ログインしています。");
+
+        String message = getString(R.string.nowLoggingIn);
+
+        mProgressDialog.setMessage(message);
+
         mProgressDialog.setCancelable(false);
+
         mProgressDialog.show();
         //activityが変わるときに勝手に消える
+    }
+
+    //EditTextに関する処理
+
+    public void showErrorMessageOnPassword() {
+        //最初のパスワードと次のパスワードが一致しなかった時に出す処理
+        //ここでボタンの無効化をする
+        mBtnDone.setEnabled(false);
+
+        String message = getString(R.string.mismatchTwoPasswords);
+
+        mTiyPassword.setError(message);
+        mTiyRePassword.setError(message);
+
+        mTiyPassword.setErrorEnabled(true);
+        mTiyRePassword.setErrorEnabled(true);
+    }
+
+    public void showErrorMessageOnMailAddress() {
+        //メールアドレスがすでに登録さていた時に出す処理
+        //ここでボタンの無効化
+        mBtnDone.setEnabled(false);
+
+        //まずはprogressDialogを消す
+        mProgressDialog.dismiss();
+
+        String message = getString(R.string.existsMailAddressAlready);
+
+        mTiyMailAddress.setError(message);
+
+        mTiyMailAddress.setErrorEnabled(true);
+
     }
 
     //リスナーの設定
@@ -247,7 +308,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
 
         if (password.equals(rePassword)) {
             //一致した時
-            sinUpUser();
+            sinUpUserFirst();
         } else {
             //不一致だった時
             //エラーメッセージを出す
@@ -257,14 +318,28 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
 
     //ユーザーを登録する処理
 
-    public void sinUpUser() {
-        //ユーザーを登録する処理
+    public void sinUpUserFirst() {
+        //ユーザーを登録する処理の第一段階
+        //mailAddressの先に登録されているかどうかを確認する前まで
         //先にボタンを押せないようにする
         mBtnDone.setEnabled(false);
 
         //次にprogressdialogを起動させる
         setUpProgressDialog();
 
+        String mailAddress = mEdMailAddress.getText().toString();
+
+        ReadingInFireBase.OnReturnUserExistsListener listener = (ReadingInFireBase.OnReturnUserExistsListener) this;
+        //このメソッドで確認する
+        ReadingInFireBase.userWithMailAddressExists(mailAddress, listener);
+
+    }
+
+    //ここで指定したメールアドレスが使われているか確認する（returnUserExists()メソッド）
+
+    public void signUpUserSecond() {
+        //returnUserExists()メソッドから呼ばれる
+        //実際に登録していく
         String name = mEdUserName.getText().toString();
         String mailAddress = mEdMailAddress.getText().toString();
         String password = mEdPassword.getText().toString();
@@ -274,21 +349,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
         WritingInFireBase.OnCompleteListener listener = (WritingInFireBase.OnCompleteListener) this;
 
         WritingInFireBase.addUser(user, listener);
-    }
-
-    //EditTextに関する処理
-
-    public void showErrorMessageOnPassword() {
-        //最初のパスワードと次のパスワードが一致しなかった時に出す処理
-        mTiyPassword.setErrorEnabled(true);
-        mTiyRePassword.setErrorEnabled(true);
-
-        String message = getResources().getString(R.string.mismatchTwoPasswords);
-        mTiyPassword.setError(message);
-        mTiyRePassword.setError(message);
-
-        //ここでボタンの無効化をする
-        mBtnDone.setEnabled(false);
     }
 
     //このFragmentのリスナー

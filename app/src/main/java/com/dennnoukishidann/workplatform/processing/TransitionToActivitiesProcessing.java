@@ -2,7 +2,9 @@ package com.dennnoukishidann.workplatform.processing;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
+import com.dennnoukishidann.workplatform.login.LoginActivity;
 import com.dennnoukishidann.workplatform.main.MainActivity;
 
 /**
@@ -15,6 +17,12 @@ public class TransitionToActivitiesProcessing {
     public static void fromLoginToMain(Activity activity) {
         //LoginActivityからMainActivityへと
         Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void fromMainToLogin(Activity activity){
+        //MainActivityからLoginActivityへと
+        Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
     }
 
