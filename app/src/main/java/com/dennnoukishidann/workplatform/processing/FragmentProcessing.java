@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dennnoukishidann.workplatform.login.SignInFragment;
 import com.dennnoukishidann.workplatform.login.SignUpFragment;
+import com.dennnoukishidann.workplatform.workFragments.RecruitWorkFragment;
 
 /**
  * Created by gotounaoto on 2018/07/11.
@@ -33,6 +34,17 @@ public class FragmentProcessing {
         SignUpFragment fragment = new SignUpFragment();
 
         if (data != null) fragment.setArguments(data);
+
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.replace(viewPath, fragment);
+        transaction.commit();
+    }
+
+    public static void setUpRecruitWork(Bundle data, AppCompatActivity activity, int viewPath){
+        //RecruitWorkFragmentのセットアップ
+        RecruitWorkFragment fragment = new RecruitWorkFragment();
+
+        if (data!=null) fragment.setArguments(data);
 
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(viewPath, fragment);

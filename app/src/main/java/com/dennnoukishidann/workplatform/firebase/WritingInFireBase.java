@@ -42,6 +42,9 @@ public class WritingInFireBase {
                 Bundle bundle = new Bundle();
                 bundle.putString(String.valueOf(R.string.BundleUserIdKey), userId);
                 completeListener.completeFirebaseProcessing(bundle);
+
+                //ここでリスナーをremove
+                KeyInFireBase.returnUsersDatabase().removeValue(this);
                 return;
             }
         });

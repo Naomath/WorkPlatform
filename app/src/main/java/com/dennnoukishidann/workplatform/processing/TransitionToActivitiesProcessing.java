@@ -2,7 +2,6 @@ package com.dennnoukishidann.workplatform.processing;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import com.dennnoukishidann.workplatform.login.LoginActivity;
 import com.dennnoukishidann.workplatform.main.MainActivity;

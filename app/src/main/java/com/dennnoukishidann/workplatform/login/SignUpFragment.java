@@ -68,7 +68,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setUpViews(inflater, container);
-        setUpDoneButton();
         setUpListeners();
         return mView;
     }
@@ -213,6 +212,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
 
         mBtnDone = (ImageButton) mView.findViewById(R.id.done);
         mBtnCancel = (Button) mView.findViewById(R.id.cancel);
+
+        setUpDoneButton();
 
         mEdUserName = (EditText) mView.findViewById(R.id.user_name);
         mEdMailAddress = (EditText) mView.findViewById(R.id.mail_address);

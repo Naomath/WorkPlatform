@@ -1,12 +1,9 @@
 package com.dennnoukishidann.workplatform.firebase;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.dennnoukishidann.workplatform.enums.UserExists;
 import com.dennnoukishidann.workplatform.instanceClass.User;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -32,6 +29,9 @@ public class ReadingInFireBase {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User item = snapshot.getValue(User.class);
                     listener.returnUser(item);
+
+                    //ここでリスナーをremove
+                    KeyInFireBase.returnUsersDatabase().removeEventListener(this);
                     return;
                 }
             }
@@ -54,9 +54,14 @@ public class ReadingInFireBase {
 
                     if (item != null) {
                         listener.returnUserExists(UserExists.EXIST);
-                        return;
+
+                        //ここでリスナーをremove
+                        KeyInFireBase.returnUsersDatabase().removeEventListener(this);
                     } else {
                         listener.returnUserExists(UserExists.NON_EXISTS);
+
+                        //ここでリスナーをremove
+                        KeyInFireBase.returnUsersDatabase().removeEventListener(this);
                         return;
                     }
                 }
