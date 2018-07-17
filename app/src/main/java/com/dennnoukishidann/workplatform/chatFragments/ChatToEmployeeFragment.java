@@ -1,4 +1,4 @@
-package com.dennnoukishidann.workplatform.workFragments;
+package com.dennnoukishidann.workplatform.chatFragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,23 +10,22 @@ import android.view.ViewGroup;
 
 import com.dennnoukishidann.workplatform.R;
 
-public class RecruitWorkFragment extends Fragment {
-
+public class ChatToEmployeeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
     View mView;
 
-    public RecruitWorkFragment() {
+    public ChatToEmployeeFragment() {
         // Required empty public constructor
     }
 
-    public static RecruitWorkFragment newInstance() {
-        RecruitWorkFragment fragment = new RecruitWorkFragment();
+    public static ChatToEmployeeFragment newInstance() {
+        ChatToEmployeeFragment fragment = new ChatToEmployeeFragment();
         return fragment;
     }
 
-    //Fragmentのサイクル
+    //フラグメントのライフサイクル
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,19 +48,16 @@ public class RecruitWorkFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     //Viewたちのセットアップ
 
-    public void setUpViews(LayoutInflater inflater, ViewGroup container) {
-        mView = inflater.inflate(R.layout.fragment_recruit_work, container, false);
+    public void setUpViews(LayoutInflater inflater, ViewGroup container){
+        mView =  inflater.inflate(R.layout.fragment_chat_to_employee, container, false);
     }
 
-    //Fragmentのリスナー
+    //フラグメントのリスナー
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

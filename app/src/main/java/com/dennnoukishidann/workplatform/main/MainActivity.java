@@ -14,7 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dennnoukishidann.workplatform.R;
+import com.dennnoukishidann.workplatform.chatFragments.ChatToEmployeeFragment;
+import com.dennnoukishidann.workplatform.chatFragments.ChatToEmployerFragment;
 import com.dennnoukishidann.workplatform.processing.FragmentProcessing;
+import com.dennnoukishidann.workplatform.settingsFragment.SettingsFragment;
+import com.dennnoukishidann.workplatform.workFragments.RecruitWorkFragment;
+import com.dennnoukishidann.workplatform.workFragments.SearchWorksFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,18 +59,27 @@ public class MainActivity extends AppCompatActivity
 
         int viewPath = R.id.frame;
 
-        switch (id){
+        switch (id) {
             case R.id.nav_search_work:
+                FragmentProcessing.setUpFragment(SearchWorksFragment.newInstance(), this, viewPath, null);
                 break;
+
             case R.id.nav_recruit_work:
-                FragmentProcessing.setUpRecruitWork(null, this, viewPath);
+                FragmentProcessing.setUpFragment(RecruitWorkFragment.newInstance(), this, viewPath, null);
                 break;
+
             case R.id.nav_chat_to_employee:
+                FragmentProcessing.setUpFragment(ChatToEmployeeFragment.newInstance(), this, viewPath, null);
                 break;
+
             case R.id.nav_chat_to_employer:
+                FragmentProcessing.setUpFragment(ChatToEmployerFragment.newInstance(), this, viewPath, null);
                 break;
+
             case R.id.nav_settings:
+                FragmentProcessing.setUpFragment(SettingsFragment.newInstance(), this, viewPath, null);
                 break;
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
     //Viewたちをセッティングする
 
-    public void setUpViews(){
+    public void setUpViews() {
         //全てのViewをセットアップする元締め
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -1,7 +1,9 @@
 package com.dennnoukishidann.workplatform.processing;
 
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,34 +19,9 @@ public class FragmentProcessing {
 
     //fragmentを設置する処理
 
-    public static void setUpSignIn(Bundle data, AppCompatActivity activity, int viewPath) {
-        //SignInFragmentのセットアップ
-        SignInFragment fragment = new SignInFragment();
+    public static void setUpFragment(Fragment fragment, AppCompatActivity activity, int viewPath, Bundle data) {
 
         if (data != null) fragment.setArguments(data);
-
-        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(viewPath, fragment);
-        transaction.commit();
-
-    }
-
-    public static void setUpSignUp(Bundle data, AppCompatActivity activity, int viewPath) {
-        //SignUpFragmentのセットアップ
-        SignUpFragment fragment = new SignUpFragment();
-
-        if (data != null) fragment.setArguments(data);
-
-        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(viewPath, fragment);
-        transaction.commit();
-    }
-
-    public static void setUpRecruitWork(Bundle data, AppCompatActivity activity, int viewPath){
-        //RecruitWorkFragmentのセットアップ
-        RecruitWorkFragment fragment = new RecruitWorkFragment();
-
-        if (data!=null) fragment.setArguments(data);
 
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(viewPath, fragment);

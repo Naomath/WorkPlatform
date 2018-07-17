@@ -1,32 +1,32 @@
-package com.dennnoukishidann.workplatform.workFragments;
+package com.dennnoukishidann.workplatform.settingsFragment;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dennnoukishidann.workplatform.R;
 
-public class RecruitWorkFragment extends Fragment {
-
+public class SettingsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
     View mView;
 
-    public RecruitWorkFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
-    public static RecruitWorkFragment newInstance() {
-        RecruitWorkFragment fragment = new RecruitWorkFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 
-    //Fragmentのサイクル
+    //フラグメントのライフサイクル
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,19 +49,16 @@ public class RecruitWorkFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     //Viewたちのセットアップ
 
     public void setUpViews(LayoutInflater inflater, ViewGroup container) {
-        mView = inflater.inflate(R.layout.fragment_recruit_work, container, false);
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    //Fragmentのリスナー
+    //このフラグメントのリスナー
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

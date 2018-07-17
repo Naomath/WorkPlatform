@@ -56,6 +56,7 @@ public class ReadingInFireBase {
                         listener.returnUserExists(UserExists.EXIST);
 
                         //ここでリスナーをremove
+                        //TODO:test
                         KeyInFireBase.returnUsersDatabase().removeEventListener(this);
                     } else {
                         listener.returnUserExists(UserExists.NON_EXISTS);

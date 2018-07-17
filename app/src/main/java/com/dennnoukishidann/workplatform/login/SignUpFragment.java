@@ -52,7 +52,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener
     public SignUpFragment() {
     }
 
-    public static SignUpFragment newInstance(String param1, String param2) {
+    public static SignUpFragment newInstance() {
         SignUpFragment fragment = new SignUpFragment();
         return fragment;
     }

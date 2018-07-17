@@ -77,9 +77,9 @@ public class LoginActivity extends AppCompatActivity
         int viewPath = R.id.frame;
 
         if (which == SIGN_IN) {
-            FragmentProcessing.setUpSignIn(null, this, viewPath);
+            FragmentProcessing.setUpFragment(SignInFragment.newInstance(), this, viewPath, null);
         } else if (which == SIGN_UP) {
-            FragmentProcessing.setUpSignUp(null, this, viewPath);
+            FragmentProcessing.setUpFragment(SignUpFragment.newInstance(), this, viewPath, null);
         }
     }
 
